@@ -1,0 +1,267 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Custom color variables */
+:root {
+  --primary-color: #3f51b5;
+  --primary-light: #7986cb;
+  --primary-dark: #303f9f;
+  --accent-color: #ff4081;
+  --accent-light: #ff80ab;
+  --accent-dark: #f50057;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --divider-color: #eeeeee;
+  --background-color: #fafafa;
+  --card-color: #ffffff;
+  --success-color: #4caf50;
+  --warning-color: #ff9800;
+  --error-color: #f44336;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.3s;
+}
+
+/* Base styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
+
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Card enhancements */
+.mat-mdc-card {
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: var(--box-shadow) !important;
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.mat-mdc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Button styles */
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-fab, .mat-mdc-mini-fab {
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  border-radius: 4px !important;
+  transition: background-color var(--transition-speed) !important;
+}
+
+.mat-mdc-raised-button:not([disabled]) {
+  box-shadow: var(--box-shadow) !important;
+}
+
+/* Form field styles */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field-wrapper {
+  margin-bottom: 1em;
+}
+
+/* Table enhancements */
+.mat-mdc-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.mat-mdc-header-row {
+  background-color: var(--primary-light);
+}
+
+.mat-mdc-header-cell {
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+.mat-mdc-row:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Loading spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 200px;
+}
+
+.loading-spinner .mat-mdc-progress-spinner circle {
+  stroke: var(--primary-color);
+}
+
+/* Error messages */
+.error-message {
+  color: var(--error-color);
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 4px;
+  background-color: rgba(244, 67, 54, 0.1);
+  border-left: 4px solid var(--error-color);
+}
+
+/* Success messages */
+.success-message {
+  color: var(--success-color);
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 4px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-left: 4px solid var(--success-color);
+}
+
+/* Toolbar customization */
+.mat-toolbar.mat-primary {
+  background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.spacer {
+  flex: 1 1 auto !important;
+}
+
+/* Content area */
+.content {
+  min-height: calc(100vh - 64px);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Responsive design */
+@media (max-width: 960px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .content {
+    padding: 10px;
+  }
+  
+  /* Stack items on small screens */
+  .deals-grid, .hotel-cards {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Price styling */
+.price {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.savings {
+  color: var(--success-color);
+  font-weight: bold;
+}
+
+/* Animation for carousels */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.carousel-slide {
+  animation: fadeIn 0.5s;
+}
+
+/* Sidenav styling */
+.mat-sidenav {
+  width: 250px;
+  border-right: none;
+  background-color: var(--card-color);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+}
+
+.mat-sidenav-content {
+  background-color: var(--background-color);
+}
+
+/* Tab styling */
+.mat-mdc-tab-group {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  background-color: var(--card-color);
+}
+
+.mat-mdc-tab-header {
+  background-color: var(--primary-color);
+}
+
+.mat-mdc-tab {
+  color: white !important;
+  opacity: 0.8;
+}
+
+.mat-mdc-tab.mdc-tab--active {
+  opacity: 1;
+}
+
+/* Icon buttons */
+.mat-icon-button {
+  transition: transform 0.2s;
+}
+
+.mat-icon-button:hover {
+  transform: scale(1.1);
+}
+
+/* Accessibility improvements */
+:focus {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
