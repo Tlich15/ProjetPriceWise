@@ -418,7 +418,7 @@ export class HotelsComponent implements OnInit, AfterViewInit {
             labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
             datasets: [
               {
-                label: 'Prix moyen 5★ (€)',
+                label: 'Prix moyen(TND)',
                 data: [340, 330, 320, 310, 300, 350, 400, 450, 380, 320, 310, 330],
                 borderColor: '#ff4081',
                 backgroundColor: 'rgba(255, 64, 129, 0.1)',
@@ -426,7 +426,7 @@ export class HotelsComponent implements OnInit, AfterViewInit {
                 fill: true
               },
               {
-                label: 'Prix moyen 4★ (€)',
+                label: 'Prix moyen(TND)',
                 data: [220, 210, 200, 190, 180, 230, 280, 300, 250, 200, 190, 210],
                 borderColor: '#2196f3',
                 backgroundColor: 'rgba(33, 150, 243, 0.1)',

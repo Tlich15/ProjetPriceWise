@@ -26,7 +26,10 @@
             }
           },
           "options": {
-            "assets": [],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "index": "src/index.html",
             "browser": "src/main.ts",
             "outputPath": "dist/demo",
@@ -34,7 +37,7 @@
             "scripts": [],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
-              "src/global_styles.css"
+              "src/global_styles.css"    
             ],
             "tsConfig": "tsconfig.app.json"
           }
