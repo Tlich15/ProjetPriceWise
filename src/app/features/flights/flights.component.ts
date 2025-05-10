@@ -13,76 +13,76 @@ import { finalize } from 'rxjs';
   template: `
     <div class="flights-container">
       <div class="header">
-        <h1>Comparateur de Vols</h1>
-        <p>Trouvez les meilleurs prix pour votre prochain voyage</p>
+        <h1>Flight Comparison</h1>
+        <p>Find the best prices for your next journey</p>
       </div>
 
       <div class="search-form-container">
         <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <label for="depart">Départ</label>
+            <label for="depart">Departure</label>
             <input 
               type="text" 
               id="depart" 
               formControlName="depart" 
-              placeholder="Code aéroport (ex: CDG)"
+              placeholder="Airport code (e.g. LHR)"
               [class.invalid]="isInvalid('depart')">
             <div class="error-message" *ngIf="isInvalid('depart')">
-              Le code de l'aéroport de départ est requis
+              Departure airport code is required
             </div>
           </div>
 
           <div class="form-group">
-            <label for="arrivee">Arrivée</label>
+            <label for="arrivee">Arrival</label>
             <input 
               type="text" 
               id="arrivee" 
               formControlName="arrivee" 
-              placeholder="Code aéroport (ex: JFK)"
+              placeholder="Airport code (e.g. JFK)"
               [class.invalid]="isInvalid('arrivee')">
             <div class="error-message" *ngIf="isInvalid('arrivee')">
-              Le code de l'aéroport d'arrivée est requis
+              Arrival airport code is required
             </div>
           </div>
 
           <div class="form-group">
-            <label for="dateDepart">Date de départ</label>
+            <label for="dateDepart">Departure date</label>
             <input 
               type="date" 
               id="dateDepart" 
               formControlName="dateDepart"
               [class.invalid]="isInvalid('dateDepart')">
             <div class="error-message" *ngIf="isInvalid('dateDepart')">
-              La date de départ est requise
+              Departure date is required
             </div>
           </div>
 
           <button type="submit" [disabled]="searchForm.invalid || isLoading" class="search-button">
-            <span *ngIf="!isLoading">Rechercher</span>
+            <span *ngIf="!isLoading">Search</span>
             <span *ngIf="isLoading" class="spinner"></span>
           </button>
         </form>
       </div>
 
       <div class="results-container" *ngIf="flights.length > 0">
-        <h2>Résultats de la recherche</h2>
+        <h2>Search Results</h2>
         
         <div class="legend">
           <div class="legend-item">
             <span class="legend-badge badge-cheapest"></span>
-            <span>Meilleur prix - Économisez!</span>
+            <span>Best price - Save money!</span>
           </div>
           <div class="legend-item">
             <span class="legend-badge badge-expensive"></span>
-            <span>Premium - Services supplémentaires</span>
+            <span>Premium - Additional services</span>
           </div>
         </div>
         
         <div class="filters">
           <span></span>
-          <button (click)="sortBy('Prix')" [class.active]="sortOption === 'Prix'">Prix</button>
-          <button (click)="sortBy('Compagnie')" [class.active]="sortOption === 'Compagnie'">Compagnie</button>
-          <button (click)="sortBy('Agence')" [class.active]="sortOption === 'Agence'">Agence</button>
+          <button (click)="sortBy('Prix')" [class.active]="sortOption === 'Prix'">Price</button>
+          <button (click)="sortBy('Compagnie')" [class.active]="sortOption === 'Compagnie'">Airline</button>
+          <button (click)="sortBy('Agence')" [class.active]="sortOption === 'Agence'">Agency</button>
         </div>
 
         <div class="flights-grid">
@@ -90,33 +90,33 @@ import { finalize } from 'rxjs';
             <div class="card-header">
             
               <h3>{{ flight.Compagnie }}</h3>
-              <p> <span class="badge badge-cheapest" *ngIf="flight === cheapestFlight">Meilleur prix</span> </p>
+              <p> <span class="badge badge-cheapest" *ngIf="flight === cheapestFlight">Best price</span> </p>
               <p> <span class="badge badge-expensive" *ngIf="flight === mostExpensiveFlight">Premium</span> </p>
             </div>
             <div class="card-body">
               <div class="flight-info">
-                <p><strong>Agence:</strong> {{ flight.Agence }}</p>
+                <p><strong>Agency:</strong> {{ flight.Agence }}</p>
                 <p class="price">{{ formatPrice(flight.Prix) }}</p>
                 <p class="advantage" *ngIf="flight === cheapestFlight">
-                  <span class="advantage-icon">✓</span> Meilleur qualité-prix
+                  <span class="advantage-icon">✓</span> Best value for money
                 </p>
                 <p class="advantage" *ngIf="flight === mostExpensiveFlight">
-                  <span class="advantage-icon">★</span> Services premium
+                  <span class="advantage-icon">★</span> Premium services
                 </p>
               </div>
-              <button class="book-button">Réserver</button>
+              <button class="book-button">Book Now</button>
             </div>
           </div>
         </div>
       </div>
 
       <div class="no-results" *ngIf="noResults">
-        <h2>Aucun vol trouvé</h2>
-        <p>Veuillez essayer avec d'autres critères de recherche.</p>
+        <h2>No flights found</h2>
+        <p>Please try with different search criteria.</p>
       </div>
 
       <div class="error-container" *ngIf="errorMessage">
-        <h2>Erreur lors de la recherche</h2>
+        <h2>Error during search</h2>
         <p>{{ errorMessage }}</p>
       </div>
     </div>
@@ -475,7 +475,7 @@ export class FlightsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Initialisation du formulaire avec la date d'aujourd'hui
+    // Initialize form with today's date
     const today = new Date();
     const dateString = today.toISOString().split('T')[0];
     this.searchForm.patchValue({
@@ -496,8 +496,8 @@ export class FlightsComponent implements OnInit {
     
     const { depart, arrivee, dateDepart } = this.searchForm.value;
     
-    // Formatage de la date pour l'API (DD-MM-YYYY)
-    const dateParts = new Date(dateDepart).toLocaleDateString('fr-FR').split('/');
+    // Format date for API (DD-MM-YYYY)
+    const dateParts = new Date(dateDepart).toLocaleDateString('en-GB').split('/');
     const formattedDate = dateParts.join('-');
     
     this.flightsService.compareFlights(formattedDate, depart.toUpperCase(), arrivee.toUpperCase())
@@ -510,8 +510,8 @@ export class FlightsComponent implements OnInit {
           this.identifySpecialFlights();
         },
         error: (error) => {
-          console.error('Erreur lors de la récupération des vols', error);
-          this.errorMessage = 'Impossible de récupérer les données de vol. Veuillez réessayer plus tard.';
+          console.error('Error retrieving flights', error);
+          this.errorMessage = 'Unable to retrieve flight data. Please try again later.';
         }
       });
   }
@@ -536,7 +536,7 @@ export class FlightsComponent implements OnInit {
       });
     }
     
-    // Mettre à jour les vols spéciaux après le tri
+    // Update special flights after sorting
     this.identifySpecialFlights();
   }
   
@@ -547,7 +547,7 @@ export class FlightsComponent implements OnInit {
       return;
     }
     
-    // Trouver le vol le moins cher et le plus cher
+    // Find cheapest and most expensive flights
     let minPrice = Infinity;
     let maxPrice = -Infinity;
     this.cheapestFlight = null;
@@ -572,7 +572,7 @@ export class FlightsComponent implements OnInit {
 
   formatPrice(price: number | string): string {
     if (typeof price === 'string') {
-      // Si c'est déjà une chaîne, on essaie de parser le nombre
+      // If it's already a string, try to parse the number
       const numericPrice = parseFloat(price.replace(/[^\d.-]/g, ''));
       return isNaN(numericPrice) ? price : numericPrice.toFixed(2);
     }

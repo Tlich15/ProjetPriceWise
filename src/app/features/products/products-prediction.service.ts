@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 
 export interface ProductRecommendation {
   recommended_products: string[];
@@ -9,7 +10,7 @@ export interface ProductRecommendation {
 
 export interface PriceComparison {
   Entreprise: string;
-  prix: number;
+  prix: number | string;
   taille: string;
 }
 
@@ -24,6 +25,22 @@ export class ProductsPredictionService {
   constructor(private http: HttpClient) { }
 
   /**
+   * Gestion des erreurs HTTP
+   */
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Erreur côté client
+      errorMessage = `Erreur: ${error.error.message}`;
+    } else {
+      // Erreur côté serveur
+      errorMessage = `Code: ${error.status}, Message: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => error);
+  }
+
+  /**
    * Appelle l'API de recommandation de produits similaires
    * @param purchasedProduct - Le produit acheté pour lequel on veut des recommandations
    * @returns Observable contenant la liste des produits recommandés
@@ -32,6 +49,9 @@ export class ProductsPredictionService {
     return this.http.post<ProductRecommendation>(
       this.recommendationApiUrl,
       { purchased: purchasedProduct }
+    ).pipe(
+      retry(1),
+      catchError(this.handleError)
     );
   }
 
@@ -42,6 +62,10 @@ export class ProductsPredictionService {
    */
   getProductPriceComparison(productName: string): Observable<PriceComparison[]> {
     const params = { produit: productName };
-    return this.http.get<PriceComparison[]>(this.priceComparisonApiUrl, { params });
+    return this.http.get<PriceComparison[]>(this.priceComparisonApiUrl, { params })
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 }

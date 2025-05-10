@@ -265,3 +265,61 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
+
+/* Add application styles & imports to this file! */
+
+/* Custom snackbar styles */
+.custom-snackbar {
+  background-color: #4facfe;
+  color: white;
+}
+
+.success-snackbar {
+  background-color: #48bb78;
+  color: white;
+}
+
+.warning-snackbar {
+  background-color: #ed8936;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f56565;
+  color: white;
+}
+
+/* Global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f7fa;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4facfe;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00f2fe;
+}
+
+/* Add a smooth transition on all elements */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}

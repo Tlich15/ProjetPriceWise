@@ -1,4 +1,3 @@
-// src/app/features/hotels/hotels.component.ts
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,10 +43,10 @@ import { ElementRef } from '@angular/core';
   template: `
     <mat-sidenav-container class="container">
       <mat-sidenav mode="side" opened class="filters">
-        <h3 class="filters-title">Trouvez Bon Hotels</h3>
+        <h3 class="filters-title">Find Good Hotels</h3>
         
         <mat-form-field appearance="outline">
-          <mat-label>Localisation</mat-label>
+          <mat-label>Location</mat-label>
           <mat-select [(ngModel)]="selectedLocation">
             <mat-option *ngFor="let location of locations" [value]="location">
               {{location}}
@@ -56,7 +55,7 @@ import { ElementRef } from '@angular/core';
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Type de chambre</mat-label>
+          <mat-label>Room type</mat-label>
           <mat-select [(ngModel)]="selectedRoomType">
             <mat-option *ngFor="let type of roomTypes" [value]="type">
               {{type}}
@@ -65,19 +64,19 @@ import { ElementRef } from '@angular/core';
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Date d'arrivée</mat-label>
+          <mat-label>Arrival date</mat-label>
           <input matInput [matDatepicker]="checkIn" [(ngModel)]="dates.checkIn">
           <mat-datepicker-toggle matSuffix [for]="checkIn"></mat-datepicker-toggle>
           <mat-datepicker #checkIn></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Prix maximum</mat-label>
+          <mat-label>Maximum price</mat-label>
           <input matInput type="number" [(ngModel)]="selectedPrice" min="0">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Nombre d'étoiles</mat-label>
+          <mat-label>Number of stars</mat-label>
           <mat-select [(ngModel)]="selectedRating">
             <mat-option *ngFor="let rating of ratings" [value]="rating">
               {{rating}}
@@ -86,7 +85,7 @@ import { ElementRef } from '@angular/core';
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Agence</mat-label>
+          <mat-label>Agency</mat-label>
           <mat-select [(ngModel)]="selectedAgency">
             <mat-option *ngFor="let agency of agencies" [value]="agency">
               {{agency}}
@@ -95,7 +94,7 @@ import { ElementRef } from '@angular/core';
         </mat-form-field>
 
         <div class="services-section">
-          <h4>Services & équipements</h4>
+          <h4>Services & facilities</h4>
           <mat-chip-listbox multiple [(ngModel)]="selectedServices">
             <mat-chip-option *ngFor="let service of availableServices" [value]="service">
               {{service}}
@@ -105,65 +104,63 @@ import { ElementRef } from '@angular/core';
 
         <button mat-raised-button color="primary" (click)="getRecommendation()" 
                 [disabled]="!canSubmit() || loading" class="recommendation-button">
-          <span *ngIf="!loading">Obtenir une recommandation</span>
+          <span *ngIf="!loading">Get a recommendation</span>
           <mat-spinner *ngIf="loading" diameter="24" class="spinner"></mat-spinner>
         </button>
       </mat-sidenav>
 
       <mat-sidenav-content class="content">
-        <!-- La partie du template à modifier (section recommandé) -->
-<div *ngIf="recommendedHotel" class="recommended-section">
-  <h2>Hôtel Recommandé</h2>
-  <mat-card class="hotel-card recommended">
-    <div class="recommended-badge">Recommandé pour vous</div>
-    <div class="hotel-image-container">
-      <img [src]="recommendationImageUrl" 
-           [alt]="recommendedHotel['Hotel Name']" class="hotel-image">
-    </div>
-    <mat-card-header>
-      <mat-card-title>{{recommendedHotel['Hotel Name']}}</mat-card-title>
-      <mat-card-subtitle>{{findLocationByName(recommendedHotel['Hotel Name'])}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="rating">
-        <span *ngFor="let i of [].constructor(recommendedHotel['Nombre de Etoile'])">⭐</span>
-      </div>
-      <p>{{recommendedHotel['Description']}}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button color="primary">Voir les détails</button>
-      <button mat-raised-button color="primary">Réserver maintenant</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+        <div *ngIf="recommendedHotel" class="recommended-section">
+          <h2>Recommended Hotel</h2>
+          <mat-card class="hotel-card recommended">
+            <div class="recommended-badge">Recommended for you</div>
+            <div class="hotel-image-container">
+              <img [src]="recommendationImageUrl" 
+                   [alt]="recommendedHotel['Hotel Name']" class="hotel-image">
+            </div>
+            <mat-card-header>
+              <mat-card-title>{{recommendedHotel['Hotel Name']}}</mat-card-title>
+              <mat-card-subtitle>{{findLocationByName(recommendedHotel['Hotel Name'])}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="rating">
+                <span *ngFor="let i of [].constructor(recommendedHotel['Nombre de Etoile'])">⭐</span>
+              </div>
+              <p>{{recommendedHotel['Description']}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button color="primary" (click)="showDetails()">See details</button>
+              <button mat-raised-button color="primary">Book now</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
 
-<!-- La partie du template pour les autres hôtels (à restaurer comme avant) -->
-<h2>Tous les hôtels</h2>
-<div class="hotel-cards">
-  <mat-card *ngFor="let hotel of hotels" class="hotel-card">
-    <div class="hotel-image-container">
-      <img [src]="hotel.image" [alt]="hotel.name" class="hotel-image">
-    </div>
-    <mat-card-header>
-      <mat-card-title>{{hotel.name}}</mat-card-title>
-      <mat-card-subtitle>{{hotel.location}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="rating">
-        <span *ngFor="let i of [].constructor(hotel.rating)">⭐</span>
-      </div>
-      <div class="price">{{hotel.price}} TD</div>
-      <p>{{hotel.description}}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button color="primary">Voir les détails</button>
-      <button mat-raised-button color="primary">Réserver maintenant</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+        <h2>All Hotels</h2>
+        <div class="hotel-cards">
+          <mat-card *ngFor="let hotel of hotels" class="hotel-card">
+            <div class="hotel-image-container">
+              <img [src]="hotel.image" [alt]="hotel.name" class="hotel-image">
+            </div>
+            <mat-card-header>
+              <mat-card-title>{{hotel.name}}</mat-card-title>
+              <mat-card-subtitle>{{hotel.location}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="rating">
+                <span *ngFor="let i of [].constructor(hotel.rating)">⭐</span>
+              </div>
+              <div class="price">{{hotel.price}} TD</div>
+              <p>{{hotel.description}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button color="primary">See details</button>
+              <button mat-raised-button color="primary">Book now</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
 
         <div class="price-trends">
-          <h3>Tendances des prix</h3>
+          <h3>Price trends</h3>
           <canvas #priceChart></canvas>
         </div>
       </mat-sidenav-content>
@@ -307,6 +304,8 @@ import { ElementRef } from '@angular/core';
     }
   `]
 })
+
+
 export class HotelsComponent implements OnInit, AfterViewInit {
   @ViewChild('priceChart') priceChart!: ElementRef;
 
@@ -361,7 +360,7 @@ export class HotelsComponent implements OnInit, AfterViewInit {
       rating: 5,
       price: 299.99,
       image: 'https://n-106-2.cdn.redgalaxy.com/file/o2/TUI/hotels/NBE16086/S23/22529600.jpg',
-      description: 'Hôtel de luxe en bord de mer avec thalasso et spa.'
+      description: 'Luxury seaside hotel with thalassotherapy'
     },
     {
       name: 'Yasmine Beach Resort',
@@ -369,7 +368,7 @@ export class HotelsComponent implements OnInit, AfterViewInit {
       rating: 4,
       price: 199.99,
       image: 'https://tse1.mm.bing.net/th/id/OIP.Nv0SP5XPzG5YG8bQT7uV7QHaFj?pid=ImgDet&w=202&h=151&c=7&dpr=2',
-      description: 'Complexe hôtelier moderne avec accès direct à la plage.'
+      description: 'Modern hotel complex with direct access to the beach'
     },
     {
       name: 'Le Sultan',
@@ -377,7 +376,7 @@ export class HotelsComponent implements OnInit, AfterViewInit {
       rating: 4,
       price: 249.99,
       image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/297646191.jpg?k=7cb9765c4d2d2169f1b549986b2ebe5d5bcfb95ed921b1b1903bd1d36256f72e&o=&hp=1',
-      description: 'Élégant hôtel avec architecture traditionnelle et jardins luxuriants.'
+      description: 'Elegant hotel with traditional architecture and lush gardens'
     },
     {
       name: 'Djerba Palace',
@@ -385,7 +384,7 @@ export class HotelsComponent implements OnInit, AfterViewInit {
       rating: 5,
       price: 329.99,
       image: 'https://th.bing.com/th/id/R.106c176d969c23d406e68cb250ea13f4?rik=%2f78LPEcIhbnhog&pid=ImgRaw&r=0',
-      description: 'Complexe hôtelier de luxe sur l\'île de Djerba avec piscines à débordement.'
+      description: 'Luxury resort on the island of Djerba with infinity pools'
     },
     {
       name: 'Carthage Thalasso',
@@ -393,7 +392,7 @@ export class HotelsComponent implements OnInit, AfterViewInit {
       rating: 5,
       price: 349.99,
       image: 'https://tse1.mm.bing.net/th/id/OIP.dKR8WBgMEDS_tILt_Bki0wHaED?rs=1&pid=ImgDetMain',
-      description: 'Centre de thalassothérapie et hôtel 5 étoiles proche de Carthage.'
+      description: 'Thalassotherapy center and 5-star hotel near Carthage'
     }
   ];
 
@@ -513,6 +512,28 @@ export class HotelsComponent implements OnInit, AfterViewInit {
         this.loading = false;
       }
     });
+  }
+
+  showDetails() {
+    if (this.recommendedHotel) {
+      const message = `
+Hotel Details:
+Location: ${this.selectedLocation}
+Room Type: ${this.selectedRoomType}
+Price: ${this.selectedPrice} TD
+Rating: ${this.selectedRating} stars
+Agency: ${this.selectedAgency}
+Date: ${this.formatDate(this.dates.checkIn)}
+Services: ${this.selectedServices.join(', ')}
+      `;
+
+      this.snackBar.open(message, 'Close', {
+        duration: 10000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        panelClass: ['details-snackbar']
+      });
+    }
   }
 
   private formatDate(date: Date): string {

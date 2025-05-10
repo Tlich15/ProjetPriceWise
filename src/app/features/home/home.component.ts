@@ -33,7 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
       </div>
 
       <div class="trending-deals">
-        <h2>Plus d'informations</h2>
+        <h2>More Information</h2>
         <div class="deals-grid">
           <mat-card *ngFor="let deal of trendingDeals" class="deal-card">
             <img [src]="deal.image" [alt]="deal.title" class="deal-image">
@@ -46,7 +46,7 @@ import { MatIconModule } from '@angular/material/icon';
               <p class="savings" *ngIf="deal.savings">Save {{ deal.savings | currency }}</p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-button color="primary" [routerLink]="deal.link">les détails</button>
+              <button mat-button color="primary" [routerLink]="deal.link">Details</button>
               
             </mat-card-actions>
           </mat-card>
@@ -177,8 +177,8 @@ export class HomeComponent implements OnInit {
   currentSlide = 0;
   promotions = [
     {
-      title: 'Réservez votre séjour en Tunisie',
-      description: 'Découvrez nos meilleures offres pour des vacances inoubliables',
+      title: 'Book Your Dream Stay in Tunisia',
+      description: 'Discover our best offers for an unforgettable vacation',
       logos: [
         'https://www.traveltodo.com/dist/img/logo.png',
         'https://i.pinimg.com/280x280_RS/cf/7b/b4/cf7bb40b45fb8829898459e3d6f14b3f.jpg'
@@ -186,21 +186,21 @@ export class HomeComponent implements OnInit {
       image: 'https://littleweekends.fr/wp-content/uploads/2022/12/La-Villa-Mauresque-hotel-de-charme-Cote-d-Azur-piscine-1-1.jpg'
     },
     {
-      title: 'Achetez des produits avec meilleur prix Maintenant ',
-      description: 'Profitez de réductions jusqu\'à 50% sur les derniers gadgets',
+      title: 'Shop Premium Products at Best Prices Now',
+      description: 'Enjoy up to 50% discounts on the latest gadgets',
       image: 'https://www.lineaires.com/var/site/storage/images/_aliases/large/3/9/7/1/581793-2-fre-FR/import_image_image001.jpg'
     },
     {
-      title: 'Trouvez votre Vol & comparez les meilleures offres',
-      description: 'Des millions de vols pas chers! Une simple recherche',
-      price: 'Avec Notre Agences',
+      title: 'Find Your Flight & Compare Best Offers',
+      description: 'Millions of affordable flights! Just one simple search',
+      price: 'With Our Agencies',
       image: 'https://d1s8koojop3egi.cloudfront.net//photos/content/gallery/gallery11006/slidevool.jpg'
     }
   ];
 
   trendingDeals = [
     {
-      title: 'Suivez les prix des produits de notre point de vente',
+      title: 'Track Prices of Products from Our Stores',
       vendor: '',
       price: '',
       savings:'',
@@ -208,12 +208,12 @@ export class HomeComponent implements OnInit {
       link: '/products/macbook-pro'
     },
     {
-      title: 'Nos meilleurs Hôtels en Tunisie',
+      title: 'Our Finest Hotels in Tunisia',
       image: 'https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg',
       link: '/hotels/beach-resort'
     },
     {
-      title: 'Réserver un vol pas cher avec la compagnie de choix',
+      title: 'Book Affordable Flights with Your Preferred Airline',
       image: 'https://cdn.turkishairlines.com/m/13b3d6ce84d63471/original/Coffee-service-in-THY-Business-Class-cabin.jpg',
       link: '/flights/london-paris'
     }
