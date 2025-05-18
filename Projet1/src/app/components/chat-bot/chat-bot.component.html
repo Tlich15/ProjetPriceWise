@@ -1,0 +1,47 @@
+<div class="chat-bot-container" [class.minimized]="isMinimized">
+  <div class="chat-header" (click)="toggleMinimize()">
+    <h3>Assistant PriceWise</h3>
+    <button mat-icon-button>
+      <mat-icon>{{ isMinimized ? 'expand_more' : 'remove' }}</mat-icon>
+    </button>
+  </div>
+  
+  <div class="chat-body" *ngIf="!isMinimized">
+    <div #messagesContainer class="messages-container">
+      <div *ngFor="let message of messages" 
+           class="message" 
+           [class.user-message]="message.isUser"
+           [class.bot-message]="!message.isUser">
+        <div class="message-content">
+          <p [innerHTML]="transformLineBreaks(message.content)"></p>
+          <small class="timestamp">{{ message.timestamp | date:'HH:mm' }}</small>
+        </div>
+      </div>
+      
+      <div *ngIf="isTyping" class="message bot-message typing-indicator">
+        <div class="typing-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="input-container">
+      <mat-form-field appearance="outline" class="message-input">
+        <input matInput
+               [formControl]="messageInput"
+               placeholder="Write your message..."
+               (keyup.enter)="sendMessage()"
+               [disabled]="isTyping">
+      </mat-form-field>
+      <button mat-icon-button 
+              color="primary" 
+              (click)="sendMessage()" 
+              [disabled]="isTyping"
+              matTooltip="Send">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
+</div> 

@@ -12,7 +12,7 @@ export interface Flight {
 @Injectable()
 export class FlightsRecommendationService {
   // URL de l'API (à ajuster selon votre environnement)
-  private apiUrl = 'http://127.0.0.1:5000/comparer';
+  private apiUrl = 'http://127.0.0.1:5000/comparer_vols';
 
   constructor(private http: HttpClient) { }
 

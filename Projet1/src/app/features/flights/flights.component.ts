@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FlightsRecommendationService, Flight } from './flights-recommendation.service';
 import { HttpClientModule } from '@angular/common/http';
 import { finalize } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-flights',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, MatIconModule],
   providers: [FlightsRecommendationService],
   template: `
     <div class="flights-container">
@@ -88,20 +89,30 @@ import { finalize } from 'rxjs';
         <div class="flights-grid">
           <div class="flight-card" *ngFor="let flight of flights">
             <div class="card-header">
-            
               <h3>{{ flight.Compagnie }}</h3>
-              <p> <span class="badge badge-cheapest" *ngIf="flight === cheapestFlight">Best price</span> </p>
-              <p> <span class="badge badge-expensive" *ngIf="flight === mostExpensiveFlight">Premium</span> </p>
+              <span class="badge badge-cheapest" *ngIf="flight === cheapestFlight">
+                <mat-icon>star</mat-icon>
+                Best price
+              </span>
+              <span class="badge badge-expensive" *ngIf="flight === mostExpensiveFlight">
+                <mat-icon>workspace_premium</mat-icon>
+                Premium
+              </span>
             </div>
             <div class="card-body">
               <div class="flight-info">
-                <p><strong>Agency:</strong> {{ flight.Agence }}</p>
-                <p class="price">{{ formatPrice(flight.Prix) }}</p>
+                <p>
+                  <mat-icon>business</mat-icon>
+                  <strong>Agency:</strong> {{ flight.Agence }}
+                </p>
+                <p class="price">{{ formatPrice(flight.Prix) }} TND</p>
                 <p class="advantage" *ngIf="flight === cheapestFlight">
-                  <span class="advantage-icon">✓</span> Best value for money
+                  <mat-icon class="advantage-icon">check_circle</mat-icon>
+                  Best value for money
                 </p>
                 <p class="advantage" *ngIf="flight === mostExpensiveFlight">
-                  <span class="advantage-icon">★</span> Premium services
+                  <mat-icon class="advantage-icon">stars</mat-icon>
+                  Premium services included
                 </p>
               </div>
               <button class="book-button">Book Now</button>
@@ -327,10 +338,25 @@ import { finalize } from 'rxjs';
 
     .flight-card {
       background: white;
-      border-radius: 8px;
-      overflow: hidden;
+      border-radius: 8px 8px 0 0;
+      overflow: visible;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      margin-bottom: 1rem;
+      border: 1px solid #e0e0e0;
+      border-bottom: none;
+    }
+
+    .flight-card::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #ff4444;
+      border-radius: 0 0 8px 8px;
     }
 
     .flight-card:hover {
@@ -338,37 +364,62 @@ import { finalize } from 'rxjs';
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
     }
 
+    .flight-card:hover::after {
+      background-color: #ff0000;
+      box-shadow: 0 2px 4px rgba(255, 0, 0, 0.2);
+    }
+
     .card-header {
       background: linear-gradient(135deg, #1a73e8, #6c5ce7);
       color: white;
-      padding: 1rem;
+      padding: 1.5rem;
       position: relative;
     }
 
     .card-header h3 {
       margin: 0;
+      font-size: 1.4rem;
       font-weight: 500;
-      font-size: 1.2rem;
     }
-    
+
     .badge {
       position: absolute;
-      top: -10px;
-      right: -10px;
-      padding: 5px 10px;
+      top: -12px;
+      right: -12px;
+      padding: 8px 16px;
       border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: bold;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       color: white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
-    
+
     .badge-cheapest {
-      background: #4caf50;
+      background: linear-gradient(135deg, #4caf50, #45a049);
     }
-    
+
     .badge-expensive {
-      background: #ff5722;
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+    }
+
+    .badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: inherit;
+      border-radius: inherit;
+      filter: blur(8px);
+      opacity: 0.5;
+      z-index: -1;
     }
 
     .card-body {
@@ -376,50 +427,61 @@ import { finalize } from 'rxjs';
     }
 
     .flight-info {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .flight-info p {
-      margin: 0.5rem 0;
+      margin: 0.7rem 0;
       color: #555;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .price {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: 600;
       color: #1a73e8 !important;
+      margin: 1rem 0 !important;
     }
-    
+
     .advantage {
       background-color: #f8f9fa;
-      border-left: 3px solid #4caf50;
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      font-size: 0.9rem;
+      border-radius: 6px;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      font-size: 0.95rem;
       display: flex;
       align-items: center;
+      gap: 8px;
+      color: #2e7d32;
+      border-left: 4px solid currentColor;
     }
-    
+
     .advantage-icon {
-      margin-right: 0.5rem;
-      font-size: 1rem;
-      color: #4caf50;
+      font-size: 1.2rem;
     }
 
     .book-button {
       background: #1a73e8;
       color: white;
       border: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 4px;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
       font-size: 1rem;
       width: 100%;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .book-button:hover {
       background: #1557b1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(26, 115, 232, 0.2);
     }
 
     .no-results, .error-container {

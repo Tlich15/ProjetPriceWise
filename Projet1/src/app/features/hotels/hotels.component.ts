@@ -17,6 +17,240 @@ import { Chart } from 'chart.js/auto';
 import { HotelRecommendationService, HotelRecommendationRequest, HotelRecommendationResponse } from './hotel-recommendation.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ElementRef } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-hotel-details-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule
+  ],
+  template: `
+    <div class="hotel-details-dialog">
+      <div class="dialog-header" [style.backgroundImage]="'url(' + data.image + ')'">
+        <button mat-icon-button class="close-button" (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <h2>{{ data.hotelName }}</h2>
+      </div>
+      
+      <div class="dialog-content">
+        <div class="info-section">
+          <div class="info-item">
+            <mat-icon>location_on</mat-icon>
+            <div>
+              <h3>Location</h3>
+              <p>{{ data.location }}</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>hotel</mat-icon>
+            <div>
+              <h3>Room Type</h3>
+              <p>{{ data.roomType }}</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>attach_money</mat-icon>
+            <div>
+              <h3>Price</h3>
+              <p>{{ data.price }} TD</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>star</mat-icon>
+            <div>
+              <h3>Rating</h3>
+              <p>{{ data.rating }} stars</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>business</mat-icon>
+            <div>
+              <h3>Agency</h3>
+              <p>{{ data.agency }}</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>event</mat-icon>
+            <div>
+              <h3>Date</h3>
+              <p>{{ data.date }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="services-section">
+          <h3>
+            <mat-icon>room_service</mat-icon>
+            Services & Amenities
+          </h3>
+          <div class="services-grid">
+            <div class="service-item" *ngFor="let service of data.services">
+              <mat-icon>check_circle</mat-icon>
+              <span>{{ service }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dialog-actions">
+        <button mat-button (click)="close()">Close</button>
+        <button mat-raised-button color="primary" (click)="bookNow()">
+          Book Now
+        </button>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .hotel-details-dialog {
+      max-width: 600px;
+      overflow: hidden;
+    }
+    
+    .dialog-header {
+      position: relative;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      color: white;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+      }
+      
+      h2 {
+        position: relative;
+        margin: 0;
+        font-size: 24px;
+        font-weight: 500;
+        z-index: 1;
+      }
+      
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: white;
+        z-index: 1;
+      }
+    }
+    
+    .dialog-content {
+      padding: 24px;
+    }
+    
+    .info-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      
+      mat-icon {
+        color: #1a73e8;
+      }
+      
+      h3 {
+        margin: 0 0 4px 0;
+        font-size: 14px;
+        color: #5f6368;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 16px;
+        color: #202124;
+      }
+    }
+    
+    .services-section {
+      h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #202124;
+        margin-bottom: 16px;
+        
+        mat-icon {
+          color: #1a73e8;
+        }
+      }
+    }
+    
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    
+    .service-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      mat-icon {
+        color: #34a853;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+      
+      span {
+        color: #3c4043;
+      }
+    }
+    
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 12px 24px 24px;
+    }
+  `]
+})
+export class HotelDetailsDialogComponent {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<HotelDetailsDialogComponent>
+  ) {}
+
+  close(): void {
+    this.dialogRef.close();
+  }
+
+  bookNow(): void {
+    // Implement booking logic here
+    console.log('Booking hotel:', this.data);
+    this.dialogRef.close('book');
+  }
+}
 
 @Component({
   selector: 'app-hotels',
@@ -37,7 +271,10 @@ import { ElementRef } from '@angular/core';
     MatChipsModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    MatIconModule,
+    HotelDetailsDialogComponent
   ],
   providers: [HotelRecommendationService],
   template: `
@@ -398,7 +635,8 @@ export class HotelsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private hotelService: HotelRecommendationService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {}
@@ -516,22 +754,30 @@ export class HotelsComponent implements OnInit, AfterViewInit {
 
   showDetails() {
     if (this.recommendedHotel) {
-      const message = `
-Hotel Details:
-Location: ${this.selectedLocation}
-Room Type: ${this.selectedRoomType}
-Price: ${this.selectedPrice} TD
-Rating: ${this.selectedRating} stars
-Agency: ${this.selectedAgency}
-Date: ${this.formatDate(this.dates.checkIn)}
-Services: ${this.selectedServices.join(', ')}
-      `;
+      const dialogData = {
+        hotelName: this.recommendedHotel['Hotel Name'],
+        image: this.recommendationImageUrl,
+        location: this.selectedLocation,
+        roomType: this.selectedRoomType,
+        price: this.selectedPrice,
+        rating: this.selectedRating,
+        agency: this.selectedAgency,
+        date: this.formatDate(this.dates.checkIn),
+        services: this.selectedServices
+      };
 
-      this.snackBar.open(message, 'Close', {
-        duration: 10000,
-        verticalPosition: 'top',
-        horizontalPosition: 'center',
-        panelClass: ['details-snackbar']
+      const dialogRef = this.dialog.open(HotelDetailsDialogComponent, {
+        data: dialogData,
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        panelClass: 'hotel-details-dialog-container'
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'book') {
+          // Handle booking logic
+          console.log('Proceeding with booking...');
+        }
       });
     }
   }

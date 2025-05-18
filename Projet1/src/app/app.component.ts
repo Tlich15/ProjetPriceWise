@@ -37,7 +37,10 @@ import { RouterLink, RouterOutlet } from '@angular/router';
         <mat-icon>menu</mat-icon>
       </button>
       <a routerLink="/" class="logo-container">
-        <span class="logo">Price</span><span class="logo-accent">Comparator</span>
+        <img src="https://image.noelshack.com/fichiers/2025/20/6/1747440631-capture-d-e-cran-2025-05-17-a-12-07-09-am.png" alt="PriceWise Logo" class="logo-image">
+        <div class="logo-text">
+          <span class="logo">Price</span><span class="logo-accent">Wise</span>
+        </div>
       </a>
       <span class="spacer"></span>
       
@@ -55,8 +58,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
         <button mat-button routerLink="/flights" routerLinkActive="active-link">
           <mat-icon>flight</mat-icon> Flights
         </button>
-        <button mat-button routerLink="/dashboard" routerLinkActive="active-link">
-          <mat-icon>dashboard</mat-icon> Dashboard
+        <button mat-raised-button color="primary" (click)="navigateToDashboard()">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
         </button>
       </div>
       
@@ -110,7 +114,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
         
         <footer class="app-footer">
           <div class="container">
-            <p>&copy; 2025 Price Comparator. All rights reserved.</p>
+            <p>&copy; 2025 PriceWise. All rights reserved.</p>
           </div>
         </footer>
       </mat-sidenav-content>
@@ -118,7 +122,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   `,
   styles: [`
     .app-toolbar {
-      height: 64px;
+      height: 80px;
       padding: 0 16px;
     }
     
@@ -127,17 +131,38 @@ import { RouterLink, RouterOutlet } from '@angular/router';
       align-items: center;
       text-decoration: none;
       color: white;
-      font-size: 20px;
-      font-weight: 500;
+      padding: 12px 20px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      gap: 16px;
+    }
+    
+    .logo-image {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      display: flex;
+      align-items: center;
+      font-size: 32px;
+      font-weight: 600;
       letter-spacing: 0.5px;
     }
     
     .logo {
-      margin-right: 2px;
+      color: white;
+      font-weight: 700;
     }
     
     .logo-accent {
+      color: #4fc3f7;
       font-weight: 300;
+    }
+    
+    .logo-container:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
     
     .spacer {
@@ -167,7 +192,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     }
     
     .sidenav-container {
-      height: calc(100% - 64px);
+      height: calc(100% - 80px);
     }
     
     .sidenav-header {
@@ -195,7 +220,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     
     .content-wrapper {
       padding: 16px;
-      min-height: calc(100vh - 64px - 60px); /* viewport - toolbar - footer */
+      min-height: calc(100vh - 80px - 60px); /* viewport - toolbar - footer */
     }
     
     .app-footer {
@@ -207,15 +232,23 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     
     @media (max-width: 600px) {
       .app-toolbar {
-        padding: 0 8px;
+        height: 70px;
       }
       
       .logo-container {
-        font-size: 18px;
+        padding: 10px;
+      }
+      
+      .logo-image {
+        height: 50px;
+      }
+      
+      .logo-text {
+        font-size: 24px;
       }
       
       .content-wrapper {
-        padding: 12px;
+        min-height: calc(100vh - 70px - 60px);
       }
     }
   `]
@@ -227,4 +260,9 @@ export class AppComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
+
+  navigateToDashboard() {
+    // Redirection vers l'application Flask au lieu du routage Angular
+    window.location.href = 'http://127.0.0.1:5000';
+  }
 }

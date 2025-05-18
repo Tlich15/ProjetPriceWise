@@ -26,7 +26,7 @@ export interface HotelRecommendationResponse {
   providedIn: 'root'
 })
 export class HotelRecommendationService {
-  private apiUrl = 'http://127.0.0.1:5000/predict';
+  private apiUrl = 'http://127.0.0.1:5000/hotel_recommendation';
 
   constructor(private http: HttpClient) { }
 

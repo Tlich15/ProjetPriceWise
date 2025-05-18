@@ -20,7 +20,7 @@ export interface PriceComparison {
 export class ProductsPredictionService {
   // URLs des API Flask (ajustez selon votre environnement)
   private recommendationApiUrl = 'http://127.0.0.1:5000/predict';
-  private priceComparisonApiUrl = 'http://127.0.0.1:5000/comparer_prix';
+  private priceComparisonApiUrl = 'http://127.0.0.1:5000/comparer_produits';
 
   constructor(private http: HttpClient) { }
 
