@@ -1,3 +1,47 @@
+This project is a full-stack Business Intelligence solution designed to compare prices of products, hotels, and flights in real-time. It integrates data engineering, AI models, and interactive dashboards to help both consumers and businesses make smarter, data-driven decisions.
+
+🎯 Key Features :
+
+Real-time price comparison from multiple sources
+
+Price drop alerts and historical trend analysis
+
+Smart product recommendations based on user behavior
+
+Predictive models for future price forecasting
+
+BI dashboards for business decision-makers
+
+Web application interface for interactive use
+
+🛠️ Technologies Used :
+
+Frontend: Angular
+
+Backend: Python (Flask)
+
+Database: SQL Server
+
+ETL: Talend Open Studio
+
+Data Visualization: Power BI
+
+Machine Learning: Scikit-learn, Pandas, NumPy
+
+Web Scraping: Selenium
+
+
+👥 Target Users:
+
+Consumers seeking the best deals
+
+Retailers, hotel managers, and travel agencies aiming to optimize pricing strategies
+
+Analysts and decision-makers needing market intelligence
+
+
+
+
 <img width="1440" alt="Image" src="https://github.com/user-attachments/assets/cc5cf370-e82e-49b6-ad54-033ec2afcbbd" />
 Uses AI to analyze and predict Price For Products,Hotels and Flights 
 <img width="1440" alt="Image" src="https://github.com/user-attachments/assets/26f3f5e1-03b1-47ed-b8f5-c7e018716388" />
