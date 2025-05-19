@@ -53,3 +53,11 @@ Uses AI to analyze and predict Price For Products,Hotels and Flights
 <img width="1440" alt="Image" src="https://github.com/user-attachments/assets/3390d9bd-163b-4c4f-a9c0-ba8c16446595" />
 
 <img width="1440" alt="Image" src="https://github.com/user-attachments/assets/e936d787-117b-4505-9e5b-6838c8086b25" />
+
+
+
+
+Admin Interface 
+=>Back Office 
+
+<img width="1417" alt="Image" src="https://github.com/user-attachments/assets/caafbfc4-0d6b-4686-9f9e-b886b562d32b" />
